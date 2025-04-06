@@ -2,8 +2,6 @@
 
 A sophisticated 2D platformer game built with Pygame, featuring an advanced AI player and automated bug detection system. The project implements real-time monitoring and reporting of gameplay anomalies through an elegant HTML-based reporting system.
 
-> This project builds upon and enhances the original [Pygame-Platformer by BoboStyx](https://github.com/BoboStyx/Pygame-Platformer) by adding advanced AI capabilities and automated bug detection features.
-
 The Project with path finding ai without bugs is https://github.com/purushottamnar/AI-GAME-TEST-BOT/Pygame-Platformer-main.zip
 
 ## 🎮 Features
@@ -159,6 +157,8 @@ To run this game go into the file Hpgame.py and run it. Pygame and python3 shoul
 
 ![image](https://github.com/user-attachments/assets/bb413956-17fc-4644-a123-f0b743f92c72)
 
-Thank you for checking out my game and enjoy.
+Thank you for checking out the game and enjoy.
+
+> This project builds upon and enhances the original [Pygame-Platformer by BoboStyx](https://github.com/BoboStyx/Pygame-Platformer) by adding advanced AI capabilities and automated bug detection features.
 
 INTENDED FOR WINDOWS BASED SYSTEMS
