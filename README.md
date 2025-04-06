@@ -4,6 +4,8 @@ A sophisticated 2D platformer game built with Pygame, featuring an advanced AI p
 
 > This project builds upon and enhances the original [Pygame-Platformer by BoboStyx](https://github.com/BoboStyx/Pygame-Platformer) by adding advanced AI capabilities and automated bug detection features.
 
+The Project with path finding ai without bugs is https://github.com/purushottamnar/AI-GAME-TEST-BOT/Pygame-Platformer-main.zip
+
 ## 🎮 Features
 
 ### AI Player System
