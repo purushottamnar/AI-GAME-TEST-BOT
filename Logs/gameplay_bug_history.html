@@ -1,0 +1,1126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gameplay Bug History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .header h1 {
+            margin: 0;
+            color: #ff4444;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bug-entry {
+            margin-bottom: 20px;
+        }
+        .bug-card {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .bug-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .time-info {
+            text-align: right;
+        }
+        .game-time {
+            font-size: 0.9em;
+            color: #4CAF50;
+            display: block;
+        }
+        .real-time {
+            font-size: 0.8em;
+            color: #888;
+        }
+        .bug-content {
+            padding: 15px;
+        }
+        .bug-description {
+            font-size: 1.1em;
+            margin: 0 0 15px 0;
+        }
+        .bug-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .metric {
+            text-align: center;
+            background-color: #363636;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .metric .value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4CAF50;
+            display: block;
+        }
+        .metric .label {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+        }
+        .bug-analysis {
+            background-color: #363636;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .bug-analysis p {
+            margin: 0;
+            color: #888;
+        }
+        .bug-card.combat { border-left: 4px solid #dc3545; }
+        .bug-card.combat .value { color: #dc3545; }
+        .bug-card.decision { border-left: 4px solid #007bff; }
+        .bug-card.decision .value { color: #007bff; }
+        .bug-card.bullet-survival { border-left: 4px solid #ffc107; }
+        .bug-card.bullet-survival .value { color: #ffc107; }
+        .bug-card.fall { border-left: 4px solid #28a745; }
+        .bug-card.fall .value { color: #28a745; }
+        .stats {
+            background-color: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #888;
+        }
+        .timestamp {
+            text-align: right;
+            color: #888;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .session-info {
+            background-color: #363636;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-bottom: 1px solid #444;
+            font-size: 0.9em;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+        .session-id {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .session-start {
+            color: #888;
+        }
+        .bug-summary {
+            background-color: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .bug-summary h2 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        .bug-type-count {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .bug-type-count.combat { background-color: #dc354522; color: #dc3545; }
+        .bug-type-count.fall { background-color: #28a74522; color: #28a745; }
+        .bug-type-count.decision { background-color: #007bff22; color: #007bff; }
+        .bug-type-count.bullet { background-color: #ffc10722; color: #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐛 Gameplay Bug History</h1>
+            <p>Complete record of all detected bugs during gameplay</p>
+        </div>
+
+        <div class="bug-summary">
+            <h2>Current Session Summary</h2>
+            <p>Session #1743904688 started at 2025-04-06 07:28:08</p>
+            <div>
+                <span class="bug-type-count combat">Combat Bugs: 2</span>
+                <span class="bug-type-count fall">Fall Bugs: 1</span>
+                <span class="bug-type-count decision">Decision Bugs: 21</span>
+                <span class="bug-type-count bullet">Bullet Bugs: 1</span>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">25</div>
+                <div class="stat-label">Total Bugs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1</div>
+                <div class="stat-label">New Bugs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">61.4s</div>
+                <div class="stat-label">Game Time</div>
+            </div>
+        </div>
+
+        <!-- BUG_ENTRIES_START -->
+        
+                            <div class="bug-entry">
+                                <div class="bug-card fall">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>💀 Immortal Fall Bug #1</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 61.4s</span>
+                                            <span class="real-time">2025-04-06 07:29:09</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">No Platform Fall Bug</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">15.0s</span>
+                                                <span class="label">Fall Duration</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">5.0px/frame</span>
+                                                <span class="label">Fall Speed</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">5191.5</span>
+                                                <span class="label">Y Position</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>Player should not survive long falls without platforms</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #21</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 42.6s</span>
+                                            <span class="real-time">2025-04-06 07:28:50</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">9</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #20</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 42.3s</span>
+                                            <span class="real-time">2025-04-06 07:28:50</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">8</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #19</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 42.2s</span>
+                                            <span class="real-time">2025-04-06 07:28:50</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">7</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #18</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 41.7s</span>
+                                            <span class="real-time">2025-04-06 07:28:49</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">6</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #17</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 40.9s</span>
+                                            <span class="real-time">2025-04-06 07:28:49</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">5</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #16</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 40.3s</span>
+                                            <span class="real-time">2025-04-06 07:28:48</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">4</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card combat">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🗡️ Combat Inaction Bug #2</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 36.3s</span>
+                                            <span class="real-time">2025-04-06 07:28:44</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">AI failed to engage nearby enemies</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">2</span>
+                                                <span class="label">Enemies</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">4.0s</span>
+                                                <span class="label">No Attack</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">100px</span>
+                                                <span class="label">Range</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI should attack when enemies are within 100 pixels</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card bullet-survival">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🎯 Bullet Survival Bug #1</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 35.7s</span>
+                                            <span class="real-time">2025-04-06 07:28:43</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Player survived excessive bullet hits</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">3/3</span>
+                                                <span class="label">Hits Survived</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">0.0s</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>Player should have died after 3 hits</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #15</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 32.3s</span>
+                                            <span class="real-time">2025-04-06 07:28:40</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">8</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #14</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 31.7s</span>
+                                            <span class="real-time">2025-04-06 07:28:39</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">7</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #13</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 31.6s</span>
+                                            <span class="real-time">2025-04-06 07:28:39</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">6</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #12</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 31.1s</span>
+                                            <span class="real-time">2025-04-06 07:28:39</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">5</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #11</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 30.3s</span>
+                                            <span class="real-time">2025-04-06 07:28:38</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">4</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #10</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 26.9s</span>
+                                            <span class="real-time">2025-04-06 07:28:35</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">4</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card combat">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🗡️ Combat Inaction Bug #1</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 23.5s</span>
+                                            <span class="real-time">2025-04-06 07:28:31</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">AI failed to engage nearby enemies</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">3</span>
+                                                <span class="label">Enemies</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">4.0s</span>
+                                                <span class="label">No Attack</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">100px</span>
+                                                <span class="label">Range</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI should attack when enemies are within 100 pixels</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #9</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 19.5s</span>
+                                            <span class="real-time">2025-04-06 07:28:27</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">6</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #8</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 19.2s</span>
+                                            <span class="real-time">2025-04-06 07:28:27</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">5</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #7</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 19.1s</span>
+                                            <span class="real-time">2025-04-06 07:28:27</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">4</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #6</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 15.4s</span>
+                                            <span class="real-time">2025-04-06 07:28:23</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">4</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #5</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 11.3s</span>
+                                            <span class="real-time">2025-04-06 07:28:19</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">8</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #4</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 11.1s</span>
+                                            <span class="real-time">2025-04-06 07:28:19</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">7</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #3</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 11.0s</span>
+                                            <span class="real-time">2025-04-06 07:28:19</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">6</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #2</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 10.5s</span>
+                                            <span class="real-time">2025-04-06 07:28:18</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">5</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+                            <div class="bug-entry">
+                                <div class="bug-card decision">
+                                    
+                        <div class="session-info">
+                            <span class="session-id">Session #1743904688</span>
+                            <span class="session-start">Started: 2025-04-06 07:28:08</span>
+                        </div>
+                    
+                                    <div class="bug-header">
+                                        <h3>🤔 Decision Making Bug #1</h3>
+                                        <div class="time-info">
+                                            <span class="game-time">Game Time: 9.7s</span>
+                                            <span class="real-time">2025-04-06 07:28:17</span>
+                                        </div>
+                                    </div>
+                                    <div class="bug-content">
+                                        <p class="bug-description">Rapid Target Switching</p>
+                                        <div class="bug-metrics">
+                                            <div class="metric">
+                                                <span class="value">4</span>
+                                                <span class="label">Target Switches</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="value">1 second</span>
+                                                <span class="label">Time Window</span>
+                                            </div>
+                                        </div>
+                                        <div class="bug-analysis">
+                                            <p>AI is switching targets too frequently</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- BUG_ENTRIES_END -->
+
+        <div class="timestamp">
+            Last Updated: 2025-04-06 07:29:09
+        </div>
+    </div>
+</body>
+</html>
